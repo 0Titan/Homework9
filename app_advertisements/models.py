@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib import admin
-from django.utils import timezone
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 class Advertisement(models.Model):
     title = models.CharField("Заголовок", max_length=128)
@@ -10,6 +11,9 @@ class Advertisement(models.Model):
     auction = models.BooleanField("Торг", help_text='Отметьте если торг уместен')
     created_dt = models.DateTimeField(auto_now_add=True)
     updated_dt = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
+    image = models.ImageField('изображение', upload_to='advertisements/')
+
 
     def __str__(self):
         return f"Advertisement(id={self.id}, title={self.title}, price={self.price})"
